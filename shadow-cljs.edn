@@ -1,0 +1,20 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src/dev"
+  "src/main"
+  "src/test"]
+
+ :dependencies
+ [[fulcrologic/fulcro "2.6.0"]
+  [fulcrologic/fulcro-inspect "2.2.2"]]
+
+ :builds
+ {:parent-render
+  {:target :browser
+   :output-dir "out/parent-render/js"
+   :modules {:main {:init-fn fq.parent-render/init}}
+   :devtools
+   {:http-root "out/parent-render"
+    :http-port 8700
+    :preloads [fulcro.inspect.preload]}
+   }}}
