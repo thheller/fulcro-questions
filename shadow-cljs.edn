@@ -16,5 +16,27 @@
    :devtools
    {:http-root "out/parent-render"
     :http-port 8700
-    :preloads [fulcro.inspect.preload]}
-   }}}
+    :preloads [fulcro.inspect.preload]}}
+
+  :dce-test
+  {:target :browser
+   :output-dir "out/dce-test/js"
+   :modules {:main {:init-fn fq.dce-test/init}}
+   :devtools
+   {:http-root "out/dce-test"
+    :http-port 8701
+    :preloads [fulcro.inspect.preload]}}
+
+
+  :render-perf
+  {:target :browser
+   :output-dir "out/render-perf/js"
+   :modules {:main {:init-fn fq.render-perf/init}}
+   :devtools
+   {:http-root "out/render-perf"
+    :http-port 8702
+    ;; no preloads here
+    ;; :preloads [fulcro.inspect.preload]
+    }}
+
+  }}
