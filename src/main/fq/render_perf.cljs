@@ -1,5 +1,6 @@
 (ns fq.render-perf
   (:require
+    [shadow.dom :as dom]
     [fulcro.client.dom :as html]
     [fulcro.client.primitives :as fp :refer (defsc)]
     [fulcro.client.mutations :as fmut :refer (defmutation)]
@@ -68,9 +69,56 @@
 (defn start
   {:dev/after-load true}
   []
-  (reset! env/app-ref (fc/mount @env/app-ref Container "root")))
+  ;; (reset! env/app-ref (fc/mount @env/app-ref Container "root"))
+  )
 
 (defn ^:export init []
   (let [app (fc/new-fulcro-client)]
     (reset! env/app-ref app)
-    (start)))
+    ;; (start)
+
+    (let [root
+          (dom/append [:div])
+
+          click-fn
+          (fn [e]
+            (when-let [el (.. e -target (closest "td.item"))]
+
+              (let [current (.-innerHTML el)
+                    id (.. el -dataset -id)
+
+                    next
+                    (str current "x")
+
+                    query
+                    (str "td.item[data-id=\"" id "\"]")]
+
+
+                (doseq [x (array-seq (.querySelectorAll root query))]
+                  (set! (.-innerHTML x) next)))))]
+
+      (dom/append
+        root
+        [:div {:on {:click click-fn}}
+         [:div
+          [:h1 "List #3"]
+          [:table
+           [:tbody
+            (for [id (range 25)]
+              [:tr
+               [:td.item {:data-id (str "item-" id "-a")} (str "a" id)]
+               [:td.item {:data-id (str "item-" id "-b")} (str "b" id)]
+               [:td.item {:data-id (str "item-" id "-c")} (str "c" id)]]
+              )]]]
+         [:div
+          [:h1 "List #4"]
+          [:table
+           [:tbody
+            (for [id (range 25)]
+              [:tr
+               [:td.item {:data-id (str "item-" id "-a")} (str "a" id)]
+               [:td.item {:data-id (str "item-" id "-b")} (str "b" id)]
+               [:td.item {:data-id (str "item-" id "-c")} (str "c" id)]]
+              )]]]
+         ]))
+    ))

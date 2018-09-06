@@ -5,7 +5,7 @@
   "src/test"]
 
  :dependencies
- [[fulcrologic/fulcro "2.6.0"]
+ [[fulcrologic/fulcro "2.5.12"]
   [fulcrologic/fulcro-inspect "2.2.2"]]
 
  :builds
